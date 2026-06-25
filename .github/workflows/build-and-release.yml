@@ -12,14 +12,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    outputs:
+      tests_passed: ${{ steps.run-tests.outcome == 'success' }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -28,25 +30,43 @@ jobs:
         with:
           products: Statistics_and_Machine_Learning_Toolbox
 
+      - name: Run buildtool test
+        id: run-tests
+        continue-on-error: true
+        uses: matlab-actions/run-build@v3
+        with:
+          tasks: test
+
+      - name: Upload Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public/
+
       - name: Run buildtool archive
         uses: matlab-actions/run-build@v3
         with:
           tasks: archive
+          build-options: -skip test
 
       - name: Upload toolbox artifact
-        uses: actions/upload-artifact@v4
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/upload-artifact@v7
         with:
           name: skewdists-mltbx
           path: releases/skewdists.mltbx
           if-no-files-found: error
 
   release:
-    needs: build
-    if: startsWith(github.ref, 'refs/tags/')
+    needs:
+      - test
+    if: startsWith(github.ref, 'refs/tags/') && needs.test.outputs.tests_passed == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -57,14 +77,42 @@ jobs:
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main
 
       - name: Download toolbox artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: skewdists-mltbx
           path: releases
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: releases/skewdists.mltbx
           fail_on_unmatched_files: true
           generate_release_notes: true
+
+  deploy-pages:
+    needs: test
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  fail-on-test-failure:
+    needs:
+      - test
+      - deploy-pages
+    if: always() && needs.test.outputs.tests_passed != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark workflow as failed after Pages deploy
+        shell: bash
+        run: |
+          echo "Tests failed. Pages were published, and release steps were skipped."
+          exit 1

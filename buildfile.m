@@ -10,8 +10,8 @@ plan("check") = CodeIssuesTask('tbx', InfoThreshold = 0, WarningThreshold=0);
 
 % Add the "test" task to run tests
 plan("test") = TestTask(SourceFiles = "tbx/skewdist", ...
-    TestResults = "tests/reports/results.html", ...
-    CodeCoverageResults = "tests/reports/coverage.html");
+    TestResults = "public/results.html", ...
+    CodeCoverageResults = "public/coverage.html");
 
 % Make the "archive" task the default task in the plan
 plan.DefaultTasks = "test";

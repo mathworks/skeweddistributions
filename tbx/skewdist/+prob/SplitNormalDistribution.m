@@ -204,10 +204,11 @@ classdef SplitNormalDistribution < prob.ToolboxFittableParametricDistribution
                 options = statset;
                 options.MaxIter = 1e5;
                 options.MaxFunEvals = 1e5;
-                options.TolFunc = 1e-10;
+                options.TolFun = 1e-10;
             end
+            dev = std(x);
             params = mle(x, 'logpdf', f, ...
-                'start', [m 1 1], ...
+                'start', [m dev dev], ...
                 'LowerBound', lb, ...
                 'UpperBound', ub, Options=options);
 

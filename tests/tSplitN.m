@@ -6,6 +6,7 @@ classdef tSplitN < matlab.unittest.TestCase
         function tRandFit(tc)
 
             fprintf("\nFitting Random Split Normals: \n")
+            n = 100000;
             for i = 1 : 10
 
                 loc = rand*2;
@@ -15,12 +16,14 @@ classdef tSplitN < matlab.unittest.TestCase
                 fprintf('  Fitting %0.2f %0.2f %0.2f\n', loc, sigma1, sigma2)
 
                 pd = prob.SplitNormalDistribution(loc, sigma1, sigma2);
-                data = pd.random(100000, 1);
+                data = pd.random(n, 1);
                 fitteddist = pd.fit(data);
                 
-                tc.verifyEqual(fitteddist.mu, loc, AbsTol = 0.2)
-                tc.verifyEqual(fitteddist.sigma1, sigma1, RelTol = 0.1*sigma1)
-                tc.verifyEqual(fitteddist.sigma2, sigma2, RelTol = 0.1*sigma2)
+                % mu's std-error scales with sigma/sqrt(n); allow ~5 std-errors of slack
+                muTol = 12 * max(sigma1,sigma2) / sqrt(n);
+                tc.verifyEqual(fitteddist.mu, loc, AbsTol = muTol)
+                tc.verifyEqual(fitteddist.sigma1, sigma1, RelTol = 0.1)
+                tc.verifyEqual(fitteddist.sigma2, sigma2, RelTol = 0.1)
 
             end
 

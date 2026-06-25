@@ -45,3 +45,5 @@ tbx/doc/resources
 
 # buildresults
 .buildtool
+
+public/
