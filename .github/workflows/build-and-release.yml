@@ -1,0 +1,70 @@
+env:
+  DOCMAKER_GITHUB_TOKEN: ${{ secrets.DOCMAKER_GITHUB_TOKEN }}
+
+name: Build and Release Toolbox
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v3
+        with:
+          products: Statistics_and_Machine_Learning_Toolbox
+
+      - name: Run buildtool archive
+        uses: matlab-actions/run-build@v3
+        with:
+          tasks: archive
+
+      - name: Upload toolbox artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: skewdists-mltbx
+          path: releases/skewdists.mltbx
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify tagged commit is on main
+        shell: bash
+        run: |
+          git fetch origin main --depth=1
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+
+      - name: Download toolbox artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: skewdists-mltbx
+          path: releases
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: releases/skewdists.mltbx
+          fail_on_unmatched_files: true
+          generate_release_notes: true
