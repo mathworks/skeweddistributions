@@ -1,7 +1,7 @@
 env:
   DOCMAKER_GITHUB_TOKEN: ${{ secrets.DOCMAKER_GITHUB_TOKEN }}
 
-name: Build and Release Toolbox
+name: Skew Distributions CI
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
 
       - name: Upload Pages artifact
         if: always()
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: public/
 
@@ -95,7 +95,7 @@ jobs:
     steps:
       - name: Deploy GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
   fail-on-test-failure:
     needs:
