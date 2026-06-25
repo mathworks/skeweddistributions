@@ -1,5 +1,4 @@
 % Skewed & Heavy-Tailed Distributions for MATLAB
-% Folder containing additional statistics distributions
 % Version 1.0.0 18-May-2026
 %
 % skewdist/+prob
