@@ -1,7 +1,7 @@
 # Skewed & Heavy-Tailed Distributions for MATLAB
 
 [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=mathworks/skeweddistributions&project=SkewDistributions.prj&file=tbx\doc\mfiles\GettingStarted.m)
- [![SkewDistributions CI](https://github.com/mathworks/skeweddistributions/actions/workflows/build-and-release.yml/badge.svg)](https://github.com/mathworks/skeweddistributions/actions/workflows/build-and-release.yml)
+ [![SkewDistributions CI](https://github.com/mathworks/skeweddistributions/actions/workflows/build-and-release.yml/badge.svg)](https://mathworks.github.io/skeweddistributions/results.html) [![coverage](https://img.shields.io/badge/dynamic/xml?url=https://mathworks.github.io/skeweddistributions/coverage.xml&query=round%28//coverage/@line-rate%2A100%29&suffix=%25&label=coverage)](https://mathworks.github.io/skeweddistributions/coverage.html)
 
 Skewed and heavy-tailed parametric distributions are widely used to model asymmetric data and tail-risk behaviour, particularly in applications such as modeling asset returns, and are commonly employed in Bayesian statistical frameworks. This repository brings together these and related parametric distributions in a consistent, MATLAB-compatible framework for the wider statistics community.
 
