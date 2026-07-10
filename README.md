@@ -21,6 +21,12 @@ The repository focuses on **clarity**, **numerical stability**, and
 
 [Documentation](./tbx/doc/index.md)
 
+or run
+
+```matlab
+skewdoc 
+```
+
 ## Installation and setup
 
 ### Requirements
@@ -93,6 +99,7 @@ line(x, y, LineWidth = 2)
 ├── buildfile.m
 ├── tbx
 │   ├── skewdist
+|       ├── skewdoc
 │       ├── +prob
 │           ├── EpsilonSkewNormalDistribution.m
 │           ├── InverseGammaDistribution.m
