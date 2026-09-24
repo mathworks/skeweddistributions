@@ -35,19 +35,28 @@ skewdoc
 - Statistics and Machine Learning Toolbox&trade; 
 ---
 
-Get the latest version of the toolbox from releases. 
+1. **Download** the [latest release](https://github.com/mathworks/skeweddistributions/releases/latest/download/skewdists.mltbx), or pick an older version from the [releases page](https://github.com/mathworks/skeweddistributions/releases).
 
-Install by double-clicking on the file or:
+2. **Install** the toolbox by double-clicking `skewdists.mltbx`, or from the MATLAB command window (with the file in your current folder):
 
-```matlab
-matlab.addons.install("skewdists.mltbx") 
-```
+   - **R2026b and later:**
 
-Once installed, run (once) the command below to refresh the Statistics and Machine Learning Toolbox with the new options:
+    ```matlab
+    mpminstall("skewdists.mltbx", Prompt = false)
+    ```
 
-```matlab
-makedist -reset 
-```
+   - **Earlier releases:**
+
+    ```matlab
+    matlab.addons.install("skewdists.mltbx")
+    ```
+
+
+3. **Register the distributions** with Statistics and Machine Learning Toolbox. Run this once after installing or upgrading:
+   ```matlab
+   makedist -reset
+   ```
+   To confirm, run `makedist` with no arguments; the new distributions should appear in the list.
 
 ## Implemented Distributions
 

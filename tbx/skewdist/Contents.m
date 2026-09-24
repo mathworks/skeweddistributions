@@ -1,5 +1,5 @@
 % Skewed & Heavy-Tailed Distributions for MATLAB
-% Version 1.1.0 10-July-2026
+% Version 1.1.1 24-Sept-2026
 %
 % skewdist/+prob
 %   EpsilonSkewNormalDistribution   - Epsilon Skew Normal Distribution
