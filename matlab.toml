@@ -1,0 +1,10 @@
+name = "SkewDistributions"
+
+[folders]
+path = [
+    "tbx/doc",
+    "tbx/skewdist",
+]
+test = [
+    "tests",
+]
