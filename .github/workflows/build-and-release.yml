@@ -26,6 +26,7 @@ jobs:
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v3
         with:
+          release: R2026a
           products: Statistics_and_Machine_Learning_Toolbox
 
       - name: Run buildtool test
