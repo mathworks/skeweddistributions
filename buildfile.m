@@ -46,6 +46,7 @@ function archiveTask(~)
 v = ver('skewdist').Version;
 opts = matlab.addons.toolbox.ToolboxOptions('tbx', "5fbc1d56-62b5-41ed-a35f-efe40bd86ffb");
 opts.ToolboxName = "Skewed Distributions";
+opts.PackageName = "SkewedDistributions";
 opts.AuthorCompany = 'MathWorks';
 opts.AuthorEmail = 'ebenetce@mathworks.com, kdeeley@mathworks.com, jdoty@mathworks.com';
 opts.AuthorName = 'Eduard Benet, Ken Deeley, and Justin Doty';
