@@ -13,32 +13,15 @@ plan("test") = TestTask(SourceFiles = "tbx/skewdist", ...
     TestResults = "public/results.html", ...
     CodeCoverageResults = ["public/coverage.html", "public/coverage.xml"]);
 
+plan('doc') = DocMakerTask( ...
+    fullfile( currentProject().RootFolder, "tbx", "doc", "**", "*.md"), ...
+    Interpreter="latex");
+
 % Make the "archive" task the default task in the plan
 plan.DefaultTasks = "test";
 
 % Make the "archive" task dependent on the "check" and "test" tasks
 plan("archive").Dependencies = ["check" "test" "doc"];
-end
-
-function docTask(~)
-
-if isempty(ver('docmaker'))
-    websave('MATLAB_DocMaker.mltbx','https://github.com/mathworks/docmaker/releases/latest/download/MATLAB_DocMaker.mltbx');
-    cobj = onCleanup(@() delete('MATLAB_DocMaker.mltbx'));
-    matlab.addons.install('MATLAB_DocMaker.mltbx', true);
-end
-
-doc = fullfile( currentProject().RootFolder, "tbx", "doc" );
-
-docdelete(doc)
-
-md = fullfile(doc,"**","*.md"); % Markdown documents
-
-html = docconvert(md, Scripts = fullfile(doc, 'mathjax-config.js')); % convert to HTML
-
-docrun(html) % run code and insert output
-docindex(doc); % index
-
 end
 
 function archiveTask(~)
