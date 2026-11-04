@@ -13,6 +13,10 @@ plan("test") = TestTask(SourceFiles = "tbx/skewdist", ...
     TestResults = "public/results.html", ...
     CodeCoverageResults = ["public/coverage.html", "public/coverage.xml"]);
 
+plan('doc') = DocMakerTask( ...
+    fullfile( currentProject().RootFolder, "tbx", "doc", "**", "*.md"), ...
+    Interpreter="latex");
+
 % Make the "archive" task the default task in the plan
 plan.DefaultTasks = "test";
 
@@ -20,31 +24,16 @@ plan.DefaultTasks = "test";
 plan("archive").Dependencies = ["check" "test" "doc"];
 end
 
-function docTask(~)
-
-if isempty(ver('docmaker'))
-    websave('MATLAB_DocMaker.mltbx','https://github.com/mathworks/docmaker/releases/latest/download/MATLAB_DocMaker.mltbx');
-    cobj = onCleanup(@() delete('MATLAB_DocMaker.mltbx'));
-    matlab.addons.install('MATLAB_DocMaker.mltbx', true);
-end
-
-doc = fullfile( currentProject().RootFolder, "tbx", "doc" );
-
-docdelete(doc)
-
-md = fullfile(doc,"**","*.md"); % Markdown documents
-
-html = docconvert(md, Scripts = fullfile(doc, 'mathjax-config.js')); % convert to HTML
-
-docrun(html) % run code and insert output
-docindex(doc); % index
-
-end
-
 function archiveTask(~)
 % Create MLTBX file
 v = ver('skewdist').Version;
 opts = matlab.addons.toolbox.ToolboxOptions('tbx', "5fbc1d56-62b5-41ed-a35f-efe40bd86ffb");
+
+% md removal
+mdfiles = dir( fullfile('tbx', 'doc', '*.md') );
+[~,idx] = ismember( fullfile( {mdfiles.folder}, {mdfiles.name}), opts.ToolboxFiles);
+opts.ToolboxFiles(idx) = [];
+
 opts.ToolboxName = "Skewed Distributions";
 opts.PackageName = "SkewedDistributions";
 opts.AuthorCompany = 'MathWorks';
