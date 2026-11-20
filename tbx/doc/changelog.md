@@ -1,5 +1,9 @@
 # Release notes
 
+## Version 1.1.3
+
+* Added README.md to the build
+
 ## Version 1.1.2
 
 * DocMaker update
