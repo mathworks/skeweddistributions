@@ -29,6 +29,8 @@ function archiveTask(~)
 v = ver('skewdist').Version;
 opts = matlab.addons.toolbox.ToolboxOptions('tbx', "5fbc1d56-62b5-41ed-a35f-efe40bd86ffb");
 
+copyfile(resolveFilePath('README.md'), 'tbx')
+
 % md removal
 mdfiles = dir( fullfile('tbx', 'doc', '*.md') );
 [~,idx] = ismember( fullfile( {mdfiles.folder}, {mdfiles.name}), opts.ToolboxFiles);
@@ -42,6 +44,7 @@ opts.AuthorName = 'Eduard Benet, Ken Deeley, and Justin Doty';
 opts.Description = 'Collection of skewed and two-piece distributions commonly used for tail-risk applications.';
 opts.OutputFile = "releases/skewdists.mltbx";
 opts.Summary = 'Collection of skewed and two-piece distributions';
+opts.Readme = resolveFilePath(fullfile('tbx','README.md'));
 opts.ToolboxGettingStartedGuide = fullfile(currentProject().RootFolder,'tbx','doc','mfiles','GettingStarted.m');
 opts.ToolboxVersion = v;
 matlab.addons.toolbox.packageToolbox(opts)
