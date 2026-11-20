@@ -27,9 +27,10 @@ end
 function archiveTask(~)
 % Create MLTBX file
 v = ver('skewdist').Version;
-opts = matlab.addons.toolbox.ToolboxOptions('tbx', "5fbc1d56-62b5-41ed-a35f-efe40bd86ffb");
 
 copyfile(resolveFilePath('README.md'), 'tbx')
+
+opts = matlab.addons.toolbox.ToolboxOptions('tbx', "5fbc1d56-62b5-41ed-a35f-efe40bd86ffb");
 
 % md removal
 mdfiles = dir( fullfile('tbx', 'doc', '*.md') );
