@@ -37,6 +37,8 @@ mdfiles = dir( fullfile('tbx', 'doc', '*.md') );
 [~,idx] = ismember( fullfile( {mdfiles.folder}, {mdfiles.name}), opts.ToolboxFiles);
 opts.ToolboxFiles(idx) = [];
 
+opts.ToolboxMatlabPath = [resolveFilePath(fullfile('tbx','skewdist')), resolveFilePath(fullfile('tbx','doc'))];
+
 opts.ToolboxName = "Skewed Distributions";
 opts.PackageName = "SkewedDistributions";
 opts.AuthorCompany = 'MathWorks';
