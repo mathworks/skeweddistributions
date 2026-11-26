@@ -1,5 +1,9 @@
 # Release notes
 
+## Version 1.1.4
+
+* Build path adjustment
+
 ## Version 1.1.3
 
 * Added README.md to the build
